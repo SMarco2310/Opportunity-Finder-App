@@ -1,0 +1,9 @@
+name: ANPE Togo
+url: https://anpetogo.org
+source_type: static
+country: TG
+scrape_frequency: daily
+trust_score: 0.85
+# Listing pages to crawl for opportunity links / content.
+listing_urls:
+  - https://anpetogo.org/offres-demploi/

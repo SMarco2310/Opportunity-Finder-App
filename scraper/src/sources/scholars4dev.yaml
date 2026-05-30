@@ -1,0 +1,8 @@
+name: Scholars4Dev
+url: https://www.scholars4dev.com
+source_type: aggregator
+country: INT
+scrape_frequency: weekly
+trust_score: 0.75
+listing_urls:
+  - https://www.scholars4dev.com/tag/scholarships-for-togolese/

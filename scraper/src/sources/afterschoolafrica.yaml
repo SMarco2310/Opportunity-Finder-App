@@ -1,0 +1,8 @@
+name: After School Africa
+url: https://www.afterschoolafrica.com
+source_type: aggregator
+country: INT
+scrape_frequency: daily
+trust_score: 0.7
+listing_urls:
+  - https://www.afterschoolafrica.com/region/togo/

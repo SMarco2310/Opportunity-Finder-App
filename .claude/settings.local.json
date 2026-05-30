@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -LsSf https://astral.sh/uv/install.sh -o /tmp/uvinstall.sh)",
+      "Bash(sh /tmp/uvinstall.sh)",
+      "Bash(~/.local/bin/uv --version)",
+      "Bash(node -e \"const p=require\\('./package.json'\\); console.log\\('expo',p.dependencies.expo\\); console.log\\('router',p.dependencies['expo-router']\\); console.log\\('rn',p.dependencies['react-native']\\)\")",
+      "Bash(cp /home/ammes/Downloads/PLAN.md ./PLAN.md)",
+      "Bash(mkdir -p docs/diagrams scraper/src/sources scraper/src/fetchers scraper/scripts scraper/tests .github/workflows apps/mobile/lib/utils apps/mobile/components/ui apps/mobile/components/cards apps/mobile/components/layout)",
+      "Bash(cd *)",
+      "Bash(node -e \"const d=require\\('./package.json'\\).dependencies; ['expo-secure-store','expo-notifications','react-native-gesture-handler','nativewind','convex','@clerk/clerk-expo','zustand','@gorhom/bottom-sheet'].forEach\\(k=>console.log\\(k, d[k]||'MISSING'\\)\\)\")",
+      "Bash(node -e \"const d=require\\('./package.json'\\).devDependencies||{}; console.log\\('tailwindcss', d.tailwindcss||'MISSING'\\)\")"
+    ]
+  }
+}

@@ -1,0 +1,8 @@
+name: Emploi Togo
+url: https://emploitogo.info
+source_type: static
+country: TG
+scrape_frequency: daily
+trust_score: 0.6
+listing_urls:
+  - https://emploitogo.info/offres-emploi/

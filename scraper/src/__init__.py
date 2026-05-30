@@ -1,0 +1,1 @@
+"""Opportunity Finder scraper package."""

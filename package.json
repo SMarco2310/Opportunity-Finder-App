@@ -1,0 +1,17 @@
+{
+  "name": "opportunity-finder",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Mobile-native app helping Togolese youth discover scholarships, internships, fellowships and grants.",
+  "scripts": {
+    "mobile": "pnpm --filter mobile",
+    "start": "pnpm --filter mobile start",
+    "start:tunnel": "pnpm --filter mobile start:tunnel",
+    "typecheck": "pnpm --filter mobile typecheck",
+    "lint": "pnpm --filter mobile lint"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "packageManager": "pnpm@11.5.0"
+}

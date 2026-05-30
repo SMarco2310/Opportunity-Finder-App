@@ -1,0 +1,8 @@
+name: Campus France Togo
+url: https://www.togo.campusfrance.org
+source_type: static
+country: TG
+scrape_frequency: weekly
+trust_score: 0.8
+listing_urls:
+  - https://www.togo.campusfrance.org/bourses
