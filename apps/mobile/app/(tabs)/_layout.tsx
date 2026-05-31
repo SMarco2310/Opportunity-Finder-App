@@ -1,6 +1,6 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Tabs } from 'expo-router';
-import { useWindowDimensions } from 'react-native';
+import { useWindowDimensions, View } from 'react-native';
 import type { ColorValue } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -10,11 +10,14 @@ import { fr } from '@/lib/i18n/fr';
 const ACTIVE = '#6E8B3D';
 const INACTIVE = '#A89F92';
 
-// The bar aligns with the screen's content cards: same 20pt side gutter as the
-// `px-5` page padding, centred. On tablets and wide web viewports we cap its
-// width so it never stretches past a comfortable reading width.
-const MAX_BAR_WIDTH = 560;
-const CONTENT_GUTTER = 20;
+// Floating pill tab bar — horizontal inset + lift above home indicator (design mockup).
+const HORIZONTAL_GUTTER = 20;
+const FLOAT_ABOVE_SAFE_AREA = 10;
+const TAB_BAR_HEIGHT = 68;
+const TAB_BAR_RADIUS = 32;
+
+// On tablets / wide web, cap width and centre; phones use HORIZONTAL_GUTTER on both sides.
+const MAX_BAR_WIDTH = 450;
 
 type IconProps = { color: ColorValue; size: number; focused: boolean };
 
@@ -33,51 +36,37 @@ export default function TabLayout() {
   const insets = useSafeAreaInsets();
   const { width } = useWindowDimensions();
 
-  // Match the content gutter so the bar lines up with the cards; on wide
-  // screens widen the gutter further to cap the bar at MAX_BAR_WIDTH, centred.
-  const gutter = Math.max(CONTENT_GUTTER, (width - MAX_BAR_WIDTH) / 2);
-  // Derive an explicit bar width and centre it. Setting `width` (not just
-  // left/right) is required because the Android tab bar otherwise stays
-  // full-width and only `left` shifts it, leaving the right edge glued.
-  const barWidth = width - gutter * 2;
-  const bottom = Math.max(insets.bottom, 16);
+  const wideLayout = width > MAX_BAR_WIDTH + HORIZONTAL_GUTTER * 2;
+  const gutter = wideLayout ? (width - MAX_BAR_WIDTH) / 2 : HORIZONTAL_GUTTER;
+  const bottom = Math.max(insets.bottom, 16) + FLOAT_ABOVE_SAFE_AREA;
 
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
+        // Full-width default background would hide the “floating” gaps; keep it clear.
+        tabBarBackground: () => <View style={{ flex: 1, backgroundColor: 'transparent' }} />,
         tabBarActiveTintColor: ACTIVE,
         tabBarInactiveTintColor: INACTIVE,
         tabBarLabelStyle: { fontFamily: 'HankenGrotesk_500Medium', fontSize: 11, marginTop: 2 },
         tabBarItemStyle: { paddingVertical: 6 },
         tabBarStyle: {
           position: 'absolute',
-          // Use only `left` + `width` (no `right`/`alignSelf`). barWidth already
-          // equals width - 2*gutter, so a left offset of `gutter` centres it.
-          // Setting all four over-constrains the Android bar and shoves it off
-          // to one side.
           left: gutter,
-          width: barWidth,
+          right: gutter,
           bottom,
-          height: 68,
-          borderRadius: 35,
+          height: TAB_BAR_HEIGHT,
+          borderRadius: TAB_BAR_RADIUS,
           paddingTop: 4,
-          // Pin paddingBottom so React Navigation stops auto-adding the bottom
-          // safe-area inset inside the bar. The bar already floats clear of the
-          // home indicator via `bottom`, so the injected inset only squashed and
-          // clipped the icon+label — and did so differently on gesture- vs
-          // button-nav Android. Symmetric padding keeps the fit identical on
-          // every Android screen.
-          paddingBottom: 4,
           backgroundColor: '#FFFFFF',
           borderTopWidth: 0,
           borderWidth: 1,
           borderColor: '#E4DCCF',
           shadowColor: '#1B1714',
-          shadowOpacity: 0.08,
-          shadowRadius: 16,
-          shadowOffset: { width: 0, height: 6 },
-          elevation: 8,
+          shadowOpacity: 0.1,
+          shadowRadius: 20,
+          shadowOffset: { width: 0, height: 8 },
+          elevation: 12,
         },
       }}>
       <Tabs.Screen
