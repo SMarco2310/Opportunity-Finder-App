@@ -1,6 +1,6 @@
 import { Pressable, Text, View } from 'react-native';
 
-import { fr } from '@/lib/i18n/fr';
+import { useT } from '@/lib/i18n';
 
 // Soft olive interest pills plus a "+ Ajouter" outline pill. Display-only for
 // MVP; editing the interest set is wired with interests.set in Step 11.
@@ -11,6 +11,7 @@ export function InterestChips({
   interests: string[];
   onAdd?: () => void;
 }) {
+  const t = useT();
   return (
     <View className="flex-row flex-wrap gap-2.5">
       {interests.map((interest) => (
@@ -21,7 +22,7 @@ export function InterestChips({
       <Pressable
         onPress={onAdd}
         className="rounded-pill border border-line px-4 py-2 active:opacity-70">
-        <Text className="font-sans-medium text-sm text-ink-muted">{fr.profile.addInterest}</Text>
+        <Text className="font-sans-medium text-sm text-ink-muted">{t.profile.addInterest}</Text>
       </Pressable>
     </View>
   );

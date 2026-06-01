@@ -11,12 +11,13 @@ import { SearchBar } from '@/components/home/SearchBar';
 import { SectionHeader } from '@/components/home/SectionHeader';
 import type { Category } from '@/lib/categories';
 import { useHomeFeed } from '@/lib/feed';
-import { fr } from '@/lib/i18n/fr';
+import { useT } from '@/lib/i18n';
 
 // Home / Accueil — the real-time personalized feed. Currently fed by mock data
 // (lib/feed.ts); swap useHomeFeed for the Convex query once the backend is live.
 export default function HomeScreen() {
   const router = useRouter();
+  const t = useT();
   const [category, setCategory] = useState<Category | null>(null);
   const { closingThisWeek, forYou } = useHomeFeed(category ?? undefined);
 
@@ -41,7 +42,7 @@ export default function HomeScreen() {
         {closingThisWeek.length > 0 ? (
           <View className="mt-7 gap-3 px-5">
             <SectionHeader
-              label={fr.home.closingThisWeek}
+              label={t.home.closingThisWeek}
               leading="dot"
               count={closingThisWeek.length}
             />
@@ -52,12 +53,12 @@ export default function HomeScreen() {
         ) : null}
 
         <View className="mt-8 gap-3 px-5">
-          <SectionHeader label={fr.home.forYou} leading="star" />
+          <SectionHeader label={t.home.forYou} leading="star" />
           {forYou.length > 0 ? (
             forYou.map((item) => <OpportunityCard key={item._id} item={item} />)
           ) : (
             <Text className="py-8 text-center font-sans text-sm text-ink-faint">
-              {fr.explore.emptyState}
+              {t.explore.emptyState}
             </Text>
           )}
         </View>

@@ -8,7 +8,7 @@ import { forwardRef, useCallback } from 'react';
 import { Pressable, Text, View } from 'react-native';
 
 import { CATEGORY_META, CATEGORY_ORDER, FUNDING_LABEL, type FundingLevel } from '@/lib/categories';
-import { fr } from '@/lib/i18n/fr';
+import { useT } from '@/lib/i18n';
 import { DESTINATIONS, EDUCATION_LEVELS, useFilters } from '@/lib/store/filters';
 
 const FUNDING_OPTIONS: FundingLevel[] = ['fully_funded', 'partial', 'unfunded'];
@@ -39,6 +39,7 @@ function Group({ label, children }: { label: string; children: React.ReactNode }
 // level), backed by the Zustand store so selections persist across tab switches.
 export const FilterSheet = forwardRef<BottomSheetModal>(function FilterSheet(_props, ref) {
   const f = useFilters();
+  const t = useT();
 
   const renderBackdrop = useCallback(
     (props: BottomSheetBackdropProps) => (
@@ -57,7 +58,7 @@ export const FilterSheet = forwardRef<BottomSheetModal>(function FilterSheet(_pr
       backgroundStyle={{ backgroundColor: '#F6F1E9' }}
       handleIndicatorStyle={{ backgroundColor: '#D8CFBF' }}>
       <BottomSheetScrollView contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 32 }}>
-        <Text className="font-serif-bold text-2xl text-ink">{fr.explore.filters}</Text>
+        <Text className="font-serif-bold text-2xl text-ink">{t.explore.filters}</Text>
 
         <Group label="CATÉGORIE">
           {CATEGORY_ORDER.map((c) => (
@@ -107,12 +108,12 @@ export const FilterSheet = forwardRef<BottomSheetModal>(function FilterSheet(_pr
           <Pressable
             onPress={f.reset}
             className="flex-1 items-center rounded-pill border border-line py-4 active:opacity-80">
-            <Text className="font-sans-semibold text-base text-ink">{fr.common.reset}</Text>
+            <Text className="font-sans-semibold text-base text-ink">{t.common.reset}</Text>
           </Pressable>
           <Pressable
             onPress={dismiss}
             className="flex-1 items-center rounded-pill bg-primary py-4 active:opacity-90">
-            <Text className="font-sans-semibold text-base text-white">{fr.common.apply}</Text>
+            <Text className="font-sans-semibold text-base text-white">{t.common.apply}</Text>
           </Pressable>
         </View>
       </BottomSheetScrollView>

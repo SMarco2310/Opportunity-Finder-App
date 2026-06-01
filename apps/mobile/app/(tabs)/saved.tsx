@@ -7,7 +7,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { ApplicationCard } from '@/components/cards/ApplicationCard';
 import { ClosingThisWeekSheet } from '@/components/saved/ClosingThisWeekSheet';
 import { SegmentedTabs } from '@/components/ui/SegmentedTabs';
-import { fr } from '@/lib/i18n/fr';
+import { useT } from '@/lib/i18n';
 import { useSavedApplications, type SavedStatus } from '@/lib/saved';
 
 // Saved / Sauvés — application tracker. Actives / Brouillons / Expirées with a
@@ -18,25 +18,26 @@ export default function SavedScreen() {
   const { byStatus, counts, total, closing } = useSavedApplications();
   const items = byStatus[tab];
   const closingSheetRef = useRef<BottomSheetModal>(null);
+  const t = useT();
 
   const empty =
-    tab === 'active' ? fr.saved.emptyActive : tab === 'draft' ? fr.saved.emptyDraft : fr.saved.emptyExpired;
+    tab === 'active' ? t.saved.emptyActive : tab === 'draft' ? t.saved.emptyDraft : t.saved.emptyExpired;
 
   return (
     <SafeAreaView className="flex-1 bg-paper" edges={['top']}>
       <View className="gap-4 px-5 pb-2 pt-3">
         <View>
-          <Text className="font-serif-bold text-4xl text-ink">{fr.saved.title}</Text>
+          <Text className="font-serif-bold text-4xl text-ink">{t.saved.title}</Text>
           <Text className="mt-1 font-sans text-base text-ink-muted">
-            {fr.saved.count(total)} · {fr.saved.closingSoon(closing.count)}
+            {t.saved.count(total)} · {t.saved.closingSoon(closing.count)}
           </Text>
         </View>
 
         <SegmentedTabs
           segments={[
-            { key: 'active', label: fr.saved.tabActive, count: counts.active },
-            { key: 'draft', label: fr.saved.tabDraft, count: counts.draft },
-            { key: 'expired', label: fr.saved.tabExpired },
+            { key: 'active', label: t.saved.tabActive, count: counts.active },
+            { key: 'draft', label: t.saved.tabDraft, count: counts.draft },
+            { key: 'expired', label: t.saved.tabExpired },
           ]}
           value={tab}
           onChange={setTab}
@@ -53,7 +54,7 @@ export default function SavedScreen() {
             <View className="mx-4 h-2 w-2 rounded-full bg-urgency-red" />
             <View className="flex-1 py-3.5">
               <Text className="font-sans-bold text-base text-ink">
-                {fr.saved.closingThisWeek(closing.count)}
+                {t.saved.closingThisWeek(closing.count)}
               </Text>
               <Text className="font-sans text-sm text-ink-muted">{closing.names.join(' · ')}</Text>
             </View>

@@ -3,7 +3,7 @@ import { Tabs } from 'expo-router';
 import type { ColorValue } from 'react-native';
 
 import { FloatingTabBar } from '@/components/navigation/FloatingTabBar';
-import { fr } from '@/lib/i18n/fr';
+import { useT } from '@/lib/i18n';
 
 const ACTIVE = '#6E8B3D';
 const INACTIVE = '#A89F92';
@@ -21,6 +21,7 @@ function tabIcon(
 }
 
 export default function TabLayout() {
+  const t = useT();
   return (
     <Tabs
       tabBar={(props) => <FloatingTabBar {...props} />}
@@ -31,23 +32,23 @@ export default function TabLayout() {
       }}>
       <Tabs.Screen
         name="index"
-        options={{ title: fr.tabs.home, tabBarIcon: tabIcon('home', 'home-outline') }}
+        options={{ title: t.tabs.home, tabBarIcon: tabIcon('home', 'home-outline') }}
       />
       <Tabs.Screen
         name="explore"
-        options={{ title: fr.tabs.explore, tabBarIcon: tabIcon('search', 'search-outline') }}
+        options={{ title: t.tabs.explore, tabBarIcon: tabIcon('search', 'search-outline') }}
       />
       <Tabs.Screen
         name="saved"
-        options={{ title: fr.tabs.saved, tabBarIcon: tabIcon('bookmark', 'bookmark-outline') }}
+        options={{ title: t.tabs.saved, tabBarIcon: tabIcon('bookmark', 'bookmark-outline') }}
       />
       <Tabs.Screen
         name="alerts"
-        options={{ title: fr.tabs.alerts, tabBarIcon: tabIcon('notifications', 'notifications-outline') }}
+        options={{ title: t.tabs.alerts, tabBarIcon: tabIcon('notifications', 'notifications-outline') }}
       />
       <Tabs.Screen
         name="profile"
-        options={{ title: fr.tabs.profile, tabBarIcon: tabIcon('person', 'person-outline') }}
+        options={{ title: t.tabs.profile, tabBarIcon: tabIcon('person', 'person-outline') }}
       />
     </Tabs>
   );
