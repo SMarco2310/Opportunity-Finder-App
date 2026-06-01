@@ -40,10 +40,9 @@ type SettingsState = {
 };
 ```
 
-**Note on theme default:** the mock shows "Sombre". But the app is currently
-only styled for light. To avoid shipping a broken-looking default, the store
-defaults `theme: 'system'` and the row reflects the live value. (Open item — see
-Decisions to confirm.)
+**Theme default:** `theme: 'system'` (follows device). The app is not yet fully
+dark-styled, so `system`/`light` avoids a half-done look until the phase-2 restyle.
+`notificationsEnabled: true`, `locale: 'fr'`.
 
 ### B. Reactive i18n
 
@@ -142,18 +141,22 @@ props: { title: string; options: Option<T>[]; selected: T; onSelect: (v: T) => v
 Renders a radio list (label + check on the selected row). Selecting calls
 `onSelect` then dismisses. Backdrop + handle styling matches `FilterSheet`.
 
-`profile.tsx` holds three refs (notifications, language, appearance), each row's
-`onPress` presents its sheet; each row's `value` text derives from `useT()` +
-store. Notifications uses a two-option sheet (Activées / Désactivées) for UI
-consistency with the other rows.
+Used for **Langue** and **Apparence** only. `profile.tsx` holds two sheet refs;
+each row's `onPress` presents its sheet; each row's `value` text derives from
+`useT()` + store.
+
+**Notifications uses an inline `Switch`** (not a sheet). Extend `SettingsRow`
+with an optional `toggle?: { value: boolean; onChange: (v: boolean) => void }`.
+When present, `SettingsList` renders a React Native `Switch` on the right instead
+of the value text + chevron, and the row is not pressable for navigation.
 
 ### E. New i18n keys (both `fr.ts` and `en.ts`)
 
 Under `profile`:
 - `english` (FR: "Anglais", EN: "English"); `french` exists.
-- `notificationsOn` / `notificationsOff` (or reuse existing `on` + add `off`).
+- notifications: existing `on` ("Activées") + add `off` ("Désactivées") for the row value text.
 - theme labels: `themeLight` ("Clair"/"Light"), `themeDark` ("Sombre"/"Dark"), `themeSystem` ("Système"/"System").
-- sheet titles: `notificationsTitle`, `languageTitle`, `appearanceTitle` (or reuse `notifications`/`language`/`appearance` labels as titles).
+- sheet titles: reuse existing `language` / `appearance` labels as the sheet titles.
 
 ## Components & boundaries
 
@@ -175,12 +178,10 @@ Under `profile`:
   row value updates; Langue switch flips visible text app-wide; Apparence
   Sombre flips class-based surfaces.
 
-## Open items to confirm with user
+## Resolved decisions
 
-1. **Default theme** — store defaults to `system` (safe) vs. `dark` (matches the
-   "Sombre" mock but app isn't dark-styled yet). Recommend `system`.
-2. **Notifications UI** — selector sheet (chosen, uniform with other rows) vs. an
-   inline `Switch`. Spec assumes the sheet.
+1. **Default theme** = `system`.
+2. **Notifications UI** = inline `Switch` (no sheet).
 
 ## Out of scope
 
