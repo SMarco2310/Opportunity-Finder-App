@@ -170,8 +170,16 @@ export default function OpportunityDetailScreen() {
         </View>
       </ScrollView>
 
-      {/* Sticky action bar */}
-      <View className="absolute inset-x-0 bottom-0 flex-row items-center justify-between border-t border-line bg-paper-card px-5 pb-8 pt-4">
+      {/* Floating action card — lifted off the bottom edge with a soft shadow */}
+      <View
+        className="absolute inset-x-4 bottom-8 flex-row items-center justify-between rounded-card bg-paper-card px-5 py-4"
+        style={{
+          shadowColor: '#1B1714',
+          shadowOpacity: 0.12,
+          shadowRadius: 20,
+          shadowOffset: { width: 0, height: 10 },
+          elevation: 8,
+        }}>
         <View className="flex-1 pr-3">
           <Text className="font-sans-medium text-[10px] tracking-[1.5px] text-ink-faint">
             {t.detail.applyOn.toUpperCase()}
@@ -184,7 +192,12 @@ export default function OpportunityDetailScreen() {
           onPress={onApply}
           className="flex-row items-center justify-center rounded-pill bg-primary px-7 py-4 active:opacity-90">
           <Text className="font-sans-semibold text-base text-white">{t.detail.apply}</Text>
-          <Ionicons name="arrow-forward" size={18} color="#fff" style={{ marginLeft: 6 }} />
+          <Ionicons
+            name="arrow-forward"
+            size={18}
+            color="#fff"
+            style={{ marginLeft: 6, transform: [{ rotate: '-45deg' }] }}
+          />
         </Pressable>
       </View>
     </SafeAreaView>
