@@ -19,10 +19,12 @@ import { StatusBar } from 'expo-status-bar';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+import { colorScheme } from 'nativewind';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { Providers } from '@/lib/auth/Providers';
+import { useSettings } from '@/lib/store/settings';
 
 // Dev preview: Metro must be running (`pnpm start` in apps/mobile). Open the app
 // via Expo Go (QR), emulator (`a`), or browser (`w`). See lib/dev/preview.ts.
@@ -34,6 +36,17 @@ export const unstable_settings = {
 };
 
 SplashScreen.preventAutoHideAsync();
+
+// Pushes the user's theme preference into NativeWind's colorScheme so the `.dark`
+// class (and the CSS-variable palette in global.css) flips. 'system' follows the
+// device. Renders nothing; lives at the root so it persists across navigation.
+function ThemeSync() {
+  const theme = useSettings((s) => s.theme);
+  useEffect(() => {
+    colorScheme.set(theme);
+  }, [theme]);
+  return null;
+}
 
 // Root shell: fonts → auth/realtime providers → tab stack + modal routes.
 // Children render with mock data until EXPO_PUBLIC_* env vars are set (Providers).
@@ -61,6 +74,7 @@ export default function RootLayout() {
       <SafeAreaProvider>
         <Providers>
           <BottomSheetModalProvider>
+            <ThemeSync />
             <StatusBar style="dark" />
             <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: '#F6F1E9' } }}>
               <Stack.Screen name="index" />

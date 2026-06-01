@@ -11,7 +11,7 @@ import { Pressable, Text, View } from 'react-native';
 
 import { ApplicationCard } from '@/components/cards/ApplicationCard';
 import { CircleButton } from '@/components/ui/CircleButton';
-import { fr } from '@/lib/i18n/fr';
+import { useT } from '@/lib/i18n';
 import type { SavedApplication } from '@/lib/saved';
 
 // Bottom sheet listing the applications closing this week. Reuses ApplicationCard
@@ -19,6 +19,7 @@ import type { SavedApplication } from '@/lib/saved';
 export const ClosingThisWeekSheet = forwardRef<BottomSheetModal, { items: SavedApplication[] }>(
   function ClosingThisWeekSheet({ items }, ref) {
     const router = useRouter();
+    const t = useT();
 
     const renderBackdrop = useCallback(
       (props: BottomSheetBackdropProps) => (
@@ -50,10 +51,10 @@ export const ClosingThisWeekSheet = forwardRef<BottomSheetModal, { items: SavedA
             </View>
             <View className="flex-1">
               <Text className="font-serif-bold text-2xl leading-tight text-ink">
-                {fr.saved.closingSheetTitle}
+                {t.saved.closingSheetTitle}
               </Text>
               <Text className="mt-1 font-sans text-base text-ink-muted">
-                {fr.saved.closingSheetSubtitle}
+                {t.saved.closingSheetSubtitle}
               </Text>
             </View>
             <CircleButton icon="close" onPress={dismiss} />
@@ -68,7 +69,7 @@ export const ClosingThisWeekSheet = forwardRef<BottomSheetModal, { items: SavedA
 
           {/* Dismiss */}
           <Pressable onPress={dismiss} className="mt-6 items-center py-2 active:opacity-70">
-            <Text className="font-sans-medium text-base text-ink-muted">{fr.saved.later}</Text>
+            <Text className="font-sans-medium text-base text-ink-muted">{t.saved.later}</Text>
           </Pressable>
         </BottomSheetScrollView>
       </BottomSheetModal>

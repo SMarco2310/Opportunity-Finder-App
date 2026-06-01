@@ -1,7 +1,7 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Pressable, Text, View } from 'react-native';
 
-import { fr } from '@/lib/i18n/fr';
+import { useT } from '@/lib/i18n';
 
 // Editorial masthead: small tracked label over a large serif name (first name
 // bold, last name italic), with a bell that carries a green unread dot.
@@ -16,7 +16,8 @@ export function GreetingHeader({
   hasAlerts?: boolean;
   onPressBell?: () => void;
 }) {
-  const label = firstName ? `${fr.auth.greeting},` : `${fr.auth.welcomeAnon},`;
+  const t = useT();
+  const label = firstName ? `${t.auth.greeting},` : `${t.auth.welcomeAnon},`;
 
   return (
     <View className="flex-row items-start justify-between">

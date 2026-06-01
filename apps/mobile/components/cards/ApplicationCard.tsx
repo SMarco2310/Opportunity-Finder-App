@@ -3,7 +3,7 @@ import { Pressable, Text, View } from 'react-native';
 
 import { CategoryBadge } from '@/components/ui/CategoryBadge';
 import { DeadlineNumeral } from '@/components/ui/DeadlineNumeral';
-import { fr } from '@/lib/i18n/fr';
+import { useT } from '@/lib/i18n';
 import type { SavedApplication } from '@/lib/saved';
 
 // Saved-tab card: tracks application progress. Category badge + deadline numeral,
@@ -16,6 +16,7 @@ export function ApplicationCard({
   onPress?: () => void;
 }) {
   const router = useRouter();
+  const t = useT();
 
   return (
     <Pressable
@@ -37,8 +38,8 @@ export function ApplicationCard({
       </View>
 
       <View className="mt-3 flex-row items-center justify-between">
-        <Text className="font-sans text-sm text-ink-muted">{fr.saved.percentDone(item.progress)}</Text>
-        <Text className="font-sans-semibold text-sm text-accent">{fr.saved.resume} →</Text>
+        <Text className="font-sans text-sm text-ink-muted">{t.saved.percentDone(item.progress)}</Text>
+        <Text className="font-sans-semibold text-sm text-accent">{t.saved.resume} →</Text>
       </View>
     </Pressable>
   );

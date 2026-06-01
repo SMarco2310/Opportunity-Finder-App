@@ -7,7 +7,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { OpportunityCard } from '@/components/cards/OpportunityCard';
 import { FilterSheet } from '@/components/explore/FilterSheet';
 import { FilterSummary } from '@/components/explore/FilterSummary';
-import { fr } from '@/lib/i18n/fr';
+import { useT } from '@/lib/i18n';
 import { useSearch } from '@/lib/search';
 import { useDebounce } from '@/lib/useDebounce';
 import { useFilters } from '@/lib/store/filters';
@@ -15,6 +15,7 @@ import { useFilters } from '@/lib/store/filters';
 // Explore / Explorer — keyword search + inline filter rows (Image #5). Filter
 // state lives in Zustand (survives tab switches); the query is debounced 300ms.
 export default function ExploreScreen() {
+  const t = useT();
   const { searchTerm, categories, fundingLevel, setSearchTerm } = useFilters();
   const debounced = useDebounce(searchTerm, 300);
   const { results } = useSearch({ searchTerm: debounced, categories, fundingLevel });
@@ -24,7 +25,7 @@ export default function ExploreScreen() {
     <SafeAreaView className="flex-1 bg-paper" edges={['top']}>
       {/* Header */}
       <View className="flex-row items-center justify-center px-5 py-2">
-        <Text className="font-sans-semibold text-lg text-ink">{fr.tabs.explore}</Text>
+        <Text className="font-sans-semibold text-lg text-ink">{t.tabs.explore}</Text>
         <Pressable
           onPress={() => sheetRef.current?.present()}
           className="absolute right-5 h-10 w-10 items-center justify-center rounded-full border border-line bg-paper-card active:opacity-80">
@@ -39,7 +40,7 @@ export default function ExploreScreen() {
           <TextInput
             value={searchTerm}
             onChangeText={setSearchTerm}
-            placeholder={fr.home.searchPlaceholder}
+            placeholder={t.home.searchPlaceholder}
             placeholderTextColor="#B6ADA0"
             returnKeyType="search"
             className="ml-2 flex-1 font-sans text-base text-ink"
@@ -67,7 +68,7 @@ export default function ExploreScreen() {
             results.map((item) => <OpportunityCard key={item._id} item={item} />)
           ) : (
             <Text className="py-16 text-center font-sans text-base leading-relaxed text-ink-faint">
-              {fr.explore.emptyState}
+              {t.explore.emptyState}
             </Text>
           )}
         </View>

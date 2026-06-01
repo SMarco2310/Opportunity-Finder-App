@@ -11,20 +11,21 @@ import { CategoryBadge } from '@/components/ui/CategoryBadge';
 import { CircleButton } from '@/components/ui/CircleButton';
 import { DottedBackdrop } from '@/components/ui/DottedBackdrop';
 import { daysUntil, formatShortDate, URGENCY_TEXT, urgencyOf } from '@/lib/deadline';
-import { fr } from '@/lib/i18n/fr';
+import { useT } from '@/lib/i18n';
 import { applyDomain, useOpportunity } from '@/lib/opportunityDetail';
 import { initials, splitTrailingYear } from '@/lib/text';
 
 export default function OpportunityDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
+  const t = useT();
   const opp = useOpportunity(id);
   const [saved, setSaved] = useState(false);
 
   if (!opp) {
     return (
       <SafeAreaView className="flex-1 items-center justify-center bg-paper">
-        <Text className="font-sans text-ink-muted">{fr.common.loading}</Text>
+        <Text className="font-sans text-ink-muted">{t.common.loading}</Text>
       </SafeAreaView>
     );
   }
@@ -35,7 +36,7 @@ export default function OpportunityDetailScreen() {
 
   // Cross-platform share: native sheet on device, Web Share / clipboard on web.
   const onShare = async () => {
-    const message = fr.detail.shareText(opp.title, days, opp.applyUrl);
+    const message = t.detail.shareText(opp.title, days, opp.applyUrl);
     try {
       if (Platform.OS === 'web') {
         const nav = globalThis.navigator as Navigator & { share?: (d: { text: string }) => Promise<void> };
@@ -84,7 +85,7 @@ export default function OpportunityDetailScreen() {
             <View className="ml-3">
               <Text className="font-sans-bold text-base text-ink">{opp.sourceName}</Text>
               <Text className="font-sans text-xs text-ink-muted">
-                {[opp.sourceTagline, opp.sourceVerified ? fr.detail.verified : null]
+                {[opp.sourceTagline, opp.sourceVerified ? t.detail.verified : null]
                   .filter(Boolean)
                   .join(' · ')}
               </Text>
@@ -112,17 +113,17 @@ export default function OpportunityDetailScreen() {
         <View className="mt-6 flex-row rounded-card border border-line bg-paper-card py-4">
           <View className="flex-1 items-center px-2">
             <Text className="font-sans-medium text-[10px] tracking-[1.5px] text-ink-muted">
-              {fr.detail.deadline.toUpperCase()}
+              {t.detail.deadline.toUpperCase()}
             </Text>
             <Text className="mt-1 font-serif-italic text-2xl text-ink">
               {formatShortDate(opp.deadlineAt)}
             </Text>
-            <Text className={`mt-0.5 font-sans text-xs ${urgency}`}>{fr.detail.inDays(days)}</Text>
+            <Text className={`mt-0.5 font-sans text-xs ${urgency}`}>{t.detail.inDays(days)}</Text>
           </View>
           <View className="w-px bg-line" />
           <View className="flex-1 items-center px-2">
             <Text className="font-sans-medium text-[10px] tracking-[1.5px] text-ink-muted">
-              {fr.detail.amount.toUpperCase()}
+              {t.detail.amount.toUpperCase()}
             </Text>
             <Text className="mt-1 text-center font-serif-italic text-2xl text-ink">
               {opp.amount ?? '—'}
@@ -137,7 +138,7 @@ export default function OpportunityDetailScreen() {
           <View className="w-px bg-line" />
           <View className="flex-1 items-center px-2">
             <Text className="font-sans-medium text-[10px] tracking-[1.5px] text-ink-muted">
-              {fr.detail.duration.toUpperCase()}
+              {t.detail.duration.toUpperCase()}
             </Text>
             <Text className="mt-1 font-serif-italic text-2xl text-ink">
               {opp.durationValue ?? '—'}
@@ -150,11 +151,11 @@ export default function OpportunityDetailScreen() {
 
         {/* Body */}
         <View className="mt-8 gap-7">
-          <DetailSection title={fr.detail.about} body={opp.description} />
+          <DetailSection title={t.detail.about} body={opp.description} />
 
           <View className="gap-3">
             <Text className="font-sans-semibold text-xs tracking-[2px] text-ink-muted">
-              {fr.detail.eligibleIf.toUpperCase()}
+              {t.detail.eligibleIf.toUpperCase()}
             </Text>
             {opp.eligibilityBullets.map((b) => (
               <View key={b} className="flex-row items-start">
@@ -164,8 +165,8 @@ export default function OpportunityDetailScreen() {
             ))}
           </View>
 
-          <DetailSection title={fr.detail.whatItCovers} body={opp.coverage} />
-          <DetailSection title={fr.detail.howToApply} body={opp.howToApply} />
+          <DetailSection title={t.detail.whatItCovers} body={opp.coverage} />
+          <DetailSection title={t.detail.howToApply} body={opp.howToApply} />
         </View>
       </ScrollView>
 
@@ -173,7 +174,7 @@ export default function OpportunityDetailScreen() {
       <View className="absolute inset-x-0 bottom-0 flex-row items-center justify-between border-t border-line bg-paper-card px-5 pb-8 pt-4">
         <View className="flex-1 pr-3">
           <Text className="font-sans-medium text-[10px] tracking-[1.5px] text-ink-faint">
-            {fr.detail.applyOn.toUpperCase()}
+            {t.detail.applyOn.toUpperCase()}
           </Text>
           <Text numberOfLines={1} className="font-sans-bold text-base text-ink">
             {applyDomain(opp.applyUrl)}
@@ -182,7 +183,7 @@ export default function OpportunityDetailScreen() {
         <Pressable
           onPress={onApply}
           className="flex-row items-center justify-center rounded-pill bg-primary px-7 py-4 active:opacity-90">
-          <Text className="font-sans-semibold text-base text-white">{fr.detail.apply}</Text>
+          <Text className="font-sans-semibold text-base text-white">{t.detail.apply}</Text>
           <Ionicons name="arrow-forward" size={18} color="#fff" style={{ marginLeft: 6 }} />
         </Pressable>
       </View>
