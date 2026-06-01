@@ -9,7 +9,20 @@
       "Bash(mkdir -p docs/diagrams scraper/src/sources scraper/src/fetchers scraper/scripts scraper/tests .github/workflows apps/mobile/lib/utils apps/mobile/components/ui apps/mobile/components/cards apps/mobile/components/layout)",
       "Bash(cd *)",
       "Bash(node -e \"const d=require\\('./package.json'\\).dependencies; ['expo-secure-store','expo-notifications','react-native-gesture-handler','nativewind','convex','@clerk/clerk-expo','zustand','@gorhom/bottom-sheet'].forEach\\(k=>console.log\\(k, d[k]||'MISSING'\\)\\)\")",
-      "Bash(node -e \"const d=require\\('./package.json'\\).devDependencies||{}; console.log\\('tailwindcss', d.tailwindcss||'MISSING'\\)\")"
+      "Bash(node -e \"const d=require\\('./package.json'\\).devDependencies||{}; console.log\\('tailwindcss', d.tailwindcss||'MISSING'\\)\")",
+      "Bash(sed -n '/onboarding: {/,/},/p' apps/mobile/lib/i18n/fr.ts)",
+      "Bash(sed -n '1,90p' apps/mobile/tailwind.config.js)",
+      "Bash(grep -nE '\"test\"|jest|vitest' apps/mobile/package.json package.json)",
+      "Bash(sed -n '13,28p' apps/mobile/tailwind.config.js)",
+      "Bash(sed -n '68,82p' apps/mobile/tailwind.config.js)",
+      "Bash(node -e \"const c=require\\('./apps/mobile/node_modules/@clerk/clerk-expo'\\); console.log\\('useSSO' in c, 'useSignUp' in c, 'useSignIn' in c, 'useOAuth' in c\\)\")",
+      "Bash(cat .env.example)",
+      "Bash(ls -la apps/mobile/.env*)",
+      "Bash(grep -n \"env\" .gitignore apps/mobile/.gitignore)",
+      "Bash(npx eslint *)",
+      "Bash(npx tsc *)",
+      "Bash(pkill -f \"expo start\")",
+      "Bash(pkill -f \"metro\")"
     ]
   }
 }

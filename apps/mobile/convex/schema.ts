@@ -69,6 +69,9 @@ export default defineSchema({
     clerkUserId: v.string(),
     phone: v.string(),
     fullName: v.optional(v.string()),
+    age: v.optional(v.number()),
+    // Set when the user finishes the onboarding flow; gates the app root.
+    onboardingCompletedAt: v.optional(v.number()),
     region: v.optional(v.string()),
     educationLevel: v.optional(v.string()),
     fieldOfStudy: v.optional(v.string()),

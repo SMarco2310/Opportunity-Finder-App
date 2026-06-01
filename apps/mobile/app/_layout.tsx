@@ -30,7 +30,7 @@ import { Providers } from '@/lib/auth/Providers';
 export { ErrorBoundary } from 'expo-router';
 
 export const unstable_settings = {
-  initialRouteName: '(tabs)',
+  initialRouteName: 'index',
 };
 
 SplashScreen.preventAutoHideAsync();
@@ -63,10 +63,11 @@ export default function RootLayout() {
           <BottomSheetModalProvider>
             <StatusBar style="dark" />
             <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: '#F6F1E9' } }}>
+              <Stack.Screen name="index" />
+              <Stack.Screen name="onboarding" />
               <Stack.Screen name="(tabs)" />
               <Stack.Screen name="opportunity/[id]" options={{ presentation: 'card' }} />
               <Stack.Screen name="(auth)/sign-in" options={{ presentation: 'modal' }} />
-              <Stack.Screen name="onboarding/interests" options={{ presentation: 'card' }} />
             </Stack>
           </BottomSheetModalProvider>
         </Providers>

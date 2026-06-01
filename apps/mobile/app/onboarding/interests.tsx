@@ -1,92 +1,82 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { OnboardingBackground } from '@/components/onboarding/OnboardingBackground';
+import { OnboardingHeader } from '@/components/onboarding/OnboardingHeader';
+import { OnboardingProgress } from '@/components/onboarding/OnboardingProgress';
 import { CategoryCard } from '@/components/onboarding/CategoryCard';
 import { CATEGORY_ORDER, type Category } from '@/lib/categories';
+import { useDraft } from '@/lib/onboarding/draft';
+import { completeOnboarding } from '@/lib/onboarding/persist';
 import { fr } from '@/lib/i18n/fr';
 
-const STEP = 2;
-const TOTAL = 4;
+const t = fr.onboarding.interests;
 
-// Onboarding: interest picker (one of a 4-step flow). Selecting categories seeds
-// the personalized feed. On continue this calls interests.set once auth is live;
-// for now it just advances to the app.
+// Step 3/3 — interest picker. Selecting categories seeds the personalized feed.
+// On continue we submit the whole draft (name, age, categories) and advance to
+// the done screen.
 export default function InterestsScreen() {
   const router = useRouter();
-  const [selected, setSelected] = useState<Category[]>(['scholarships', 'fellowships', 'training']);
+  const { draft, setCategories } = useDraft();
+  const [busy, setBusy] = useState(false);
 
   const toggle = (c: Category) =>
-    setSelected((prev) => (prev.includes(c) ? prev.filter((x) => x !== c) : [...prev, c]));
+    setCategories(
+      draft.categories.includes(c)
+        ? draft.categories.filter((x) => x !== c)
+        : [...draft.categories, c],
+    );
 
-  const finish = () => router.replace('/(tabs)');
+  const finish = async () => {
+    if (draft.categories.length === 0 || busy) return;
+    setBusy(true);
+    const parsedAge = parseInt(draft.age, 10);
+    await completeOnboarding({
+      fullName: draft.fullName.trim(),
+      age: Number.isFinite(parsedAge) ? parsedAge : undefined,
+      categories: draft.categories,
+    });
+    router.replace('/onboarding/done');
+  };
 
   return (
     <View className="flex-1 bg-paper">
-      <LinearGradient
-        colors={['#FBE7D7', '#F4EFE9', '#ECE7F1']}
-        start={{ x: 0.5, y: 0 }}
-        end={{ x: 0.5, y: 1 }}
-        style={{ position: 'absolute', inset: 0 }}
-      />
+      <OnboardingBackground />
       <SafeAreaView className="flex-1" edges={['top', 'bottom']}>
-        <ScrollView showsVerticalScrollIndicator={false} contentContainerClassName="px-6 pb-4">
-          <Ionicons name="locate" size={28} color="#6E8B3D" style={{ marginTop: 8 }} />
-
-          {/* Progress */}
-          <Text className="mt-5 font-sans-semibold text-xs tracking-[2px] text-ink-muted">
-            {fr.onboarding.step(STEP, TOTAL).toUpperCase()}
-          </Text>
-          <View className="mt-2 flex-row gap-1.5">
-            {Array.from({ length: TOTAL }).map((_, i) => (
-              <View
-                key={i}
-                className={`h-1.5 flex-1 rounded-pill ${i < STEP ? 'bg-accent' : 'bg-line'}`}
-              />
-            ))}
-          </View>
-
-          {/* Heading */}
-          <Text className="mt-7 font-sans-medium text-base text-accent">
-            {fr.onboarding.question}
-          </Text>
-          <Text className="mt-2 text-4xl leading-tight text-ink">
-            <Text className="font-serif-bold">{fr.onboarding.titleLead} </Text>
-            <Text className="font-serif-italic text-accent">{fr.onboarding.titleAccent} </Text>
-            <Text className="font-serif-bold">{fr.onboarding.titleTail}</Text>
-          </Text>
-          <Text className="mt-3 font-sans text-base leading-snug text-ink-muted">
-            {fr.onboarding.subtitle}
-          </Text>
-
-          {/* Grid */}
+        <OnboardingProgress step={3} total={3} />
+        <ScrollView showsVerticalScrollIndicator={false} contentContainerClassName="px-6 pt-6 pb-4">
+          <OnboardingHeader
+            eyebrow={t.eyebrow}
+            titleLead={t.titleLead}
+            titleAccent={t.titleAccent}
+            titleTail={t.titleTail}
+            subtitle={t.subtitle}
+          />
           <View className="mt-6 flex-row flex-wrap justify-between gap-y-3">
             {CATEGORY_ORDER.map((c) => (
               <CategoryCard
                 key={c}
                 category={c}
-                selected={selected.includes(c)}
+                selected={draft.categories.includes(c)}
                 onToggle={() => toggle(c)}
               />
             ))}
           </View>
         </ScrollView>
 
-        {/* Bottom bar */}
-        <View className="flex-row items-center gap-4 px-6 pb-2 pt-3">
-          <Pressable onPress={finish} hitSlop={8} className="active:opacity-60">
-            <Text className="font-sans-medium text-base text-ink-muted">{fr.onboarding.skip}</Text>
-          </Pressable>
+        <View className="px-6 pb-2 pt-3">
           <Pressable
             onPress={finish}
-            disabled={selected.length === 0}
-            className={`flex-1 flex-row items-center justify-center rounded-pill py-4 active:opacity-90 ${
-              selected.length === 0 ? 'bg-accent/40' : 'bg-accent'
+            disabled={draft.categories.length === 0 || busy}
+            className={`h-14 flex-row items-center justify-center rounded-pill active:opacity-90 ${
+              draft.categories.length === 0 ? 'bg-accent/40' : 'bg-accent'
             }`}>
-            <Text className="font-sans-bold text-base text-white">{fr.onboarding.continue}</Text>
+            <Text className="font-sans-bold text-base text-white">
+              {t.continueWith(draft.categories.length)}
+            </Text>
             <Ionicons name="arrow-forward" size={18} color="#fff" style={{ marginLeft: 6 }} />
           </Pressable>
         </View>

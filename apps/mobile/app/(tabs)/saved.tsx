@@ -1,9 +1,11 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { useState } from 'react';
+import type { BottomSheetModal } from '@gorhom/bottom-sheet';
+import { useRef, useState } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { ApplicationCard } from '@/components/cards/ApplicationCard';
+import { ClosingThisWeekSheet } from '@/components/saved/ClosingThisWeekSheet';
 import { SegmentedTabs } from '@/components/ui/SegmentedTabs';
 import { fr } from '@/lib/i18n/fr';
 import { useSavedApplications, type SavedStatus } from '@/lib/saved';
@@ -15,6 +17,7 @@ export default function SavedScreen() {
   const [tab, setTab] = useState<SavedStatus>('active');
   const { byStatus, counts, total, closing } = useSavedApplications();
   const items = byStatus[tab];
+  const closingSheetRef = useRef<BottomSheetModal>(null);
 
   const empty =
     tab === 'active' ? fr.saved.emptyActive : tab === 'draft' ? fr.saved.emptyDraft : fr.saved.emptyExpired;
@@ -43,7 +46,9 @@ export default function SavedScreen() {
       <ScrollView showsVerticalScrollIndicator={false} contentContainerClassName="gap-3 px-5 pb-32 pt-2">
         {/* Closing-this-week banner (active tab only) */}
         {tab === 'active' && closing.count > 0 ? (
-          <Pressable className="flex-row items-center overflow-hidden rounded-card border border-glow active:opacity-90">
+          <Pressable
+            onPress={() => closingSheetRef.current?.present()}
+            className="flex-row items-center overflow-hidden rounded-card border border-glow active:opacity-90">
             <View className="absolute inset-0 bg-glow/30" />
             <View className="mx-4 h-2 w-2 rounded-full bg-urgency-red" />
             <View className="flex-1 py-3.5">
@@ -62,6 +67,8 @@ export default function SavedScreen() {
           <Text className="py-16 text-center font-sans text-base text-ink-faint">{empty}</Text>
         )}
       </ScrollView>
+
+      <ClosingThisWeekSheet ref={closingSheetRef} items={closing.items} />
     </SafeAreaView>
   );
 }

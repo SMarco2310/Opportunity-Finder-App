@@ -31,7 +31,7 @@ export type SavedData = {
   byStatus: Record<SavedStatus, SavedApplication[]>;
   counts: Record<SavedStatus, number>;
   total: number;
-  closing: { count: number; names: string[] };
+  closing: { count: number; names: string[]; items: SavedApplication[] };
 };
 
 export function useSavedApplications(): SavedData {
@@ -44,6 +44,10 @@ export function useSavedApplications(): SavedData {
     byStatus,
     counts: { active: byStatus.active.length, draft: byStatus.draft.length, expired: byStatus.expired.length },
     total: APPLICATIONS.length,
-    closing: { count: closingApps.length, names: closingApps.map((a) => a.title.split(' ').slice(0, 2).join(' ')) },
+    closing: {
+      count: closingApps.length,
+      names: closingApps.map((a) => a.title.split(' ').slice(0, 2).join(' ')),
+      items: closingApps,
+    },
   };
 }

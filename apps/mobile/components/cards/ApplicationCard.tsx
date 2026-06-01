@@ -8,12 +8,18 @@ import type { SavedApplication } from '@/lib/saved';
 
 // Saved-tab card: tracks application progress. Category badge + deadline numeral,
 // title, source, a progress bar, and a "% complété · Reprendre" footer.
-export function ApplicationCard({ item }: { item: SavedApplication }) {
+export function ApplicationCard({
+  item,
+  onPress,
+}: {
+  item: SavedApplication;
+  onPress?: () => void;
+}) {
   const router = useRouter();
 
   return (
     <Pressable
-      onPress={() => router.push(`/opportunity/${item._id}`)}
+      onPress={onPress ?? (() => router.push(`/opportunity/${item._id}`))}
       className="rounded-card border border-line bg-paper-card p-5 active:opacity-90">
       <View className="flex-row items-start justify-between">
         <CategoryBadge category={item.category} />
