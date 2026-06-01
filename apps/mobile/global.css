@@ -1,3 +1,51 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* ---------------------------------------------------------------------------
+ * Palette as CSS-variable RGB channels. tailwind.config.js references these as
+ * rgb(var(--color-x) / <alpha-value>) so dark mode flips every class-based
+ * surface (bg-paper, text-ink, border-line, …) by toggling the `.dark` class
+ * via NativeWind's colorScheme (see ThemeSync in app/_layout.tsx). Hardcoded
+ * hex in components (icon colors, gradients) is phase-2 follow-up.
+ * ------------------------------------------------------------------------- */
+@layer base {
+  :root {
+    --color-paper: 246 241 233;
+    --color-paper-card: 255 255 255;
+    --color-paper-sunk: 239 233 222;
+    --color-ink: 27 23 20;
+    --color-ink-muted: 139 129 117;
+    --color-ink-faint: 182 173 160;
+    --color-line: 228 220 207;
+    --color-line-strong: 216 207 191;
+    --color-primary: 15 110 86;
+    --color-primary-dark: 11 87 67;
+    --color-primary-light: 230 242 238;
+    --color-accent: 110 139 61;
+    --color-accent-soft: 167 185 138;
+    --color-urgency-red: 207 91 73;
+    --color-urgency-amber: 201 149 46;
+    --color-urgency-green: 110 139 61;
+    --color-glow: 247 201 168;
+  }
+  .dark {
+    --color-paper: 23 21 18;
+    --color-paper-card: 33 30 26;
+    --color-paper-sunk: 43 39 34;
+    --color-ink: 240 236 230;
+    --color-ink-muted: 168 160 149;
+    --color-ink-faint: 120 113 104;
+    --color-line: 52 47 41;
+    --color-line-strong: 66 60 53;
+    --color-primary: 45 168 138;
+    --color-primary-dark: 30 130 105;
+    --color-primary-light: 20 54 47;
+    --color-accent: 142 173 92;
+    --color-accent-soft: 95 122 60;
+    --color-urgency-red: 224 122 102;
+    --color-urgency-amber: 214 168 80;
+    --color-urgency-green: 142 173 92;
+    --color-glow: 120 78 52;
+  }
+}

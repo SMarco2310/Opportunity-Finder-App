@@ -1,5 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  // Dark mode toggled by the `.dark` class, driven by NativeWind's colorScheme
+  // (see ThemeSync in app/_layout.tsx). Palette values live as CSS variables in
+  // global.css so every token below flips automatically.
+  darkMode: 'class',
   // NativeWind v4 scans these files for className usage.
   content: ['./app/**/*.{ts,tsx}', './components/**/*.{ts,tsx}'],
   presets: [require('nativewind/preset')],
@@ -10,38 +14,38 @@ module.exports = {
       // accent, soft pastel category badges. Mirrors the home-screen mock.
       // -------------------------------------------------------------------
       colors: {
-        // Warm paper backgrounds
+        // Warm paper backgrounds (light/dark values in global.css)
         paper: {
-          DEFAULT: '#F6F1E9', // app background (warm cream)
-          card: '#FFFFFF', // card surface
-          sunk: '#EFE9DE', // recessed / pressed
+          DEFAULT: 'rgb(var(--color-paper) / <alpha-value>)', // app background
+          card: 'rgb(var(--color-paper-card) / <alpha-value>)', // card surface
+          sunk: 'rgb(var(--color-paper-sunk) / <alpha-value>)', // recessed / pressed
         },
         // Warm ink (text)
         ink: {
-          DEFAULT: '#1B1714', // near-black, warm
-          muted: '#8B8175', // secondary text
-          faint: '#B6ADA0', // tertiary / meta
+          DEFAULT: 'rgb(var(--color-ink) / <alpha-value>)', // near-black, warm
+          muted: 'rgb(var(--color-ink-muted) / <alpha-value>)', // secondary text
+          faint: 'rgb(var(--color-ink-faint) / <alpha-value>)', // tertiary / meta
         },
         line: {
-          DEFAULT: '#E4DCCF', // hairline borders
-          strong: '#D8CFBF',
+          DEFAULT: 'rgb(var(--color-line) / <alpha-value>)', // hairline borders
+          strong: 'rgb(var(--color-line-strong) / <alpha-value>)',
         },
         // Brand green (buttons / primary actions — kept from plan)
         primary: {
-          DEFAULT: '#0F6E56',
-          dark: '#0B5743',
-          light: '#E6F2EE',
+          DEFAULT: 'rgb(var(--color-primary) / <alpha-value>)',
+          dark: 'rgb(var(--color-primary-dark) / <alpha-value>)',
+          light: 'rgb(var(--color-primary-light) / <alpha-value>)',
         },
         // Editorial accent — olive leaf green (active tab, "2026", green deadlines)
         accent: {
-          DEFAULT: '#6E8B3D',
-          soft: '#A7B98A',
+          DEFAULT: 'rgb(var(--color-accent) / <alpha-value>)',
+          soft: 'rgb(var(--color-accent-soft) / <alpha-value>)',
         },
         // Deadline urgency (the big serif numerals)
         urgency: {
-          red: '#CF5B49', // < 7 days
-          amber: '#C9952E', // < 30 days
-          green: '#6E8B3D', // >= 30 days
+          red: 'rgb(var(--color-urgency-red) / <alpha-value>)', // < 7 days
+          amber: 'rgb(var(--color-urgency-amber) / <alpha-value>)', // < 30 days
+          green: 'rgb(var(--color-urgency-green) / <alpha-value>)', // >= 30 days
         },
         // Category badges: { bg, fg } pastels
         cat: {
@@ -63,7 +67,7 @@ module.exports = {
           'volunteer-bg': '#E0EBCF',
         },
         // Soft glow on the featured card
-        glow: '#F7C9A8',
+        glow: 'rgb(var(--color-glow) / <alpha-value>)',
       },
       fontFamily: {
         // Display serif (Fraunces) — names, titles, deadline numerals
