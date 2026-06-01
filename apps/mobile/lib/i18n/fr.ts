@@ -178,10 +178,15 @@ export const fr = {
     language: 'Langue',
     appearance: 'Apparence',
     on: 'Activées',
+    off: 'Désactivées',
     french: 'Français',
+    english: 'Anglais',
     dark: 'Sombre',
+    themeLight: 'Clair',
+    themeDark: 'Sombre',
+    themeSystem: 'Système',
     signInCta: 'Connecte-toi pour créer ton profil',
   },
-} as const;
+};
 
 export type Fr = typeof fr;
