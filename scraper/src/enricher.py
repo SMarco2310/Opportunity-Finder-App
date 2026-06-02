@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import logging
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
 from openai import OpenAI
 
@@ -26,8 +26,11 @@ def deadline_to_ms(deadline_iso: str) -> int:
             if dt.tzinfo is None:
                 dt = dt.replace(tzinfo=timezone.utc)
     except ValueError:
+        # Unparseable date: fall back to +30 days (mirrors the extractor prompt)
+        # rather than "now", which would land before the feed's deadlineAt >= now
+        # filter and make the opportunity invisible.
         logger.warning("enrich.bad_deadline", extra={"value": text})
-        dt = datetime.now(timezone.utc)
+        dt = datetime.now(timezone.utc) + timedelta(days=30)
     return int(dt.timestamp() * 1000)
 
 

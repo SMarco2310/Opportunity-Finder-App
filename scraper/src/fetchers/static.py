@@ -28,12 +28,21 @@ async def fetch_markdown(url: str) -> str:
 
 
 async def fetch_many(urls: list[str]) -> dict[str, str]:
-    """Fetch several URLs, returning {url: markdown}. Reuses one crawler."""
+    """Fetch several URLs, returning {url: markdown}. Reuses one crawler.
+
+    Each URL is isolated: a crawl failure on one page logs and yields "" for
+    that page instead of aborting the rest (and the whole source).
+    """
     out: dict[str, str] = {}
     async with AsyncWebCrawler() as crawler:
         for url in urls:
             logger.info("fetch.start", extra={"url": url})
-            result = await crawler.arun(url=url)
+            try:
+                result = await crawler.arun(url=url)
+            except Exception:
+                logger.exception("fetch.error", extra={"url": url})
+                out[url] = ""
+                continue
             markdown = getattr(result, "markdown", "")
             if markdown and not isinstance(markdown, str):
                 markdown = getattr(markdown, "raw_markdown", "") or str(markdown)

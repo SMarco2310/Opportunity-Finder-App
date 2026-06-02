@@ -71,8 +71,12 @@ class Extractor:
             messages=[{"role": "user", "content": user}],
         )
 
-        block = msg.content[0]
-        raw_text = getattr(block, "text", "")
+        # Guard against an empty or non-text first block (refusal / tool use)
+        # so we never IndexError or feed a non-string to the JSON parser.
+        if not msg.content:
+            logger.error("extract.empty_response", extra={"url": page_url})
+            return []
+        raw_text = getattr(msg.content[0], "text", "")
         payload = _strip_code_fence(raw_text)
 
         try:
