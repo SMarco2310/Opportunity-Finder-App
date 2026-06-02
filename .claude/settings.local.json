@@ -22,7 +22,21 @@
       "Bash(npx eslint *)",
       "Bash(npx tsc *)",
       "Bash(pkill -f \"expo start\")",
-      "Bash(pkill -f \"metro\")"
+      "Bash(pkill -f \"metro\")",
+      "Bash(git add *)",
+      "Bash(git commit -q -m 'docs: resolve settings spec open items \\(system default, inline notif switch\\) *)",
+      "Bash(node -e \"console.log\\(Object.keys\\(require\\('./package.json'\\).scripts||{}\\).join\\(', '\\)\\)\")",
+      "Bash(git checkout *)",
+      "Bash(npm run *)",
+      "Bash(node -e \"const nw=require\\('nativewind'\\); console.log\\('colorScheme:', typeof nw.colorScheme, '| set:', typeof nw.colorScheme?.set\\)\")",
+      "Bash(node -e \"const b=require\\('@gorhom/bottom-sheet'\\); console.log\\('BottomSheetView:', !!b.BottomSheetView\\)\")",
+      "Bash(git stash *)",
+      "Bash(git merge --no-ff feat/functional-settings -m 'Merge feat/functional-settings: functional settings + closing-sheet *)",
+      "Bash(git branch *)",
+      "Bash(git merge --no-ff feat/apply-bar-restyle -m 'Merge feat/apply-bar-restyle: floating green apply card *)",
+      "Bash(pkill -f \"expo/bin\")",
+      "Bash(pkill -f \"expo/bin/cli start\")",
+      "Bash(uv run *)"
     ]
   }
 }
